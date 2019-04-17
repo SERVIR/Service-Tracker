@@ -1,0 +1,11 @@
+﻿/****************************
+* firebase setup
+****************************/
+var config = {
+    apiKey: "YourKeyHere",
+    authDomain: "mapviewer-yourinfo.firebaseapp.com",
+    databaseURL: "https://mapviewer-yourinfo.firebaseio.com",
+    projectId: "mapviewer-yourinfo",
+    storageBucket: "mapviewer-yourinfo.appspot.com",
+    messagingSenderId: "yourinfo"
+};

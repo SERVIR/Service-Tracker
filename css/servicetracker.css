@@ -1,0 +1,827 @@
+﻿body {
+    overflow: hidden;
+}
+
+#page-cover {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 172, 236, 0.4196078431372549);
+    z-index: 9999;
+    top: 0;
+    left: 0;
+}
+
+#myProgress {
+    width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -10px 0 0 -250px;
+    background: linear-gradient(to right, #e2edcb, #b9d12a);
+    z-index: 1000000;
+}
+
+#myBar {
+    width: 1%;
+    height: 30px;
+    background: linear-gradient(to right, #caefff, #00acec);
+}
+
+.vis-panel {
+    box-sizing: border-box;
+}
+
+.parentNode {
+    display: none !important;
+}
+
+#map_graphics_layer path {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    fill-rule: evenodd;
+    stroke: rgb(0, 172, 236);
+    stroke-opacity: 1;
+    stroke-width: 2px;
+    fill: rgb(200, 241, 155);
+    fill-opacity: 0.8;
+}
+
+    #map_graphics_layer path:hover {
+        fill: rgb(240, 174, 31);
+        fill-opacity: 0.8;
+    }
+
+    #map_graphics_layer path:hover {
+        cursor: pointer;
+        animation-duration: 0.2s;
+        animation-name: highlight;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+        -webkit-animation-duration: 0.2s;
+        -webkit-animation-name: highlight;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-fill-mode: both;
+        border-color: blue;
+    }
+
+.vertical {
+    position: absolute;
+    border-left: 1px solid #848484;
+    border-right: 1px solid #848484;
+    background-color: #dadada;
+    width: 4px;
+    height: 100%;
+    padding: 0 !important;
+    margin: 0;
+    z-index: 30;
+}
+
+.vertical {
+    background-image: url(form/images/sliderVertical.png);
+    background-repeat: repeat-x;
+    background-position: 0 -20px;
+    border-color: #32668E; /*#5FABF1;*/
+    background-color: #32668E; /*#cfe5fa;*/
+    left: 0px;
+    position: absolute;
+    z-index: 100;
+    /*display: none;*/
+}
+
+.handleContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.handle {
+    width: 24px;
+    height: 65px;
+    margin: -16px 0 0 0;
+    position: absolute;
+    z-index: 30;
+    top: 50%;
+    left: 50%;
+    background-color: #dadada;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #848484;
+    background-image: url("../images/vClose.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-color: transparent; /* #5FABF1;*/
+    background-color: transparent; /* #cfe5fa; */
+    cursor: pointer;
+}
+
+    .handle:hover {
+        opacity: 0.6;
+    }
+
+
+
+#map_BillyZWMS {
+    pointer-events: none;
+    z-index: 2;
+}
+
+#map_gc {
+    z-index: 1;
+}
+
+#map_root {
+    width: auto !important;
+}
+
+#maps-panel {
+    text-align: center;
+}
+
+    #maps-panel img {
+        height: auto;
+        width: 40%; /*75%;*/
+        margin-top: 16px;
+        cursor: pointer;
+        margin-left: 2%;
+    }
+
+        #maps-panel img:hover {
+            /* IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+            /* IE 5-7 */
+            filter: alpha(opacity=50);
+            /* Netscape */
+            -moz-opacity: 0.5;
+            /* Safari 1.x */
+            -khtml-opacity: 0.5;
+            /* Good browsers */
+            opacity: 0.5;
+        }
+
+.basemapholder {
+    border: aliceblue 4px outset;
+    margin: 0;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+    .basemapholder:hover {
+        border: aliceblue 4px inset;
+    }
+
+    .basemapholder.selected {
+        border: #00acec 4px inset;
+    }
+
+.esriBasemapGalleryThumbnail.selected {
+    border: 1px solid #00acec;
+    -moz-box-shadow: 0px 0px 7px #00acec;
+    -webkit-box-shadow: 0px 0px 7px #00acec;
+    box-shadow: 0px 0px 7px #00acec;
+}
+
+.ui-accordion .ui-accordion-header {
+    color: white;
+    border: #32668E 2px solid;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin: 0px 0 0 0;
+    border-left: 0px;
+    text-transform: uppercase;
+    padding: 0 0 0 2.2em;
+    line-height: 18px;
+}
+
+#map {
+    position: absolute;
+    top: 80px;
+    bottom: 0px;
+    height: 100vh;
+}
+
+#BasemapToggle {
+    top: auto;
+    position: absolute;
+    right: 20px;
+    z-index: 39;
+    top: 10px;
+}
+
+#navtoolHolder {
+    pointer-events: none;
+    position: absolute;
+    top: -3px;
+    z-index: 98;
+    width: 100%;
+}
+
+#navtools {
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    pointer-events: auto;
+}
+
+
+#btninfo {
+    display: none;
+    position: relative;
+    float: left;
+    width: 40px;
+    z-index: 98;
+    /*border: 3px solid #CAED4D;*/
+    background-color: #00ACEC;
+    -webkit-border-radius: 0 0 8px 8px;
+    border-radius: 0 0 8px 8px;
+    padding: 10px;
+}
+
+    #btninfo:hover {
+        opacity: .8
+    }
+
+div#welcome-msg {
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.right-panels {
+    position: absolute;
+    bottom: 0;
+    width: 413px;
+    left: -413px;
+    padding-top: 35px;
+    /*background-color: #F2F2F2;*/
+    border: 1px solid #d3d3d3;
+    font-family: 'Titillium', sans-serif;
+    color: #3f3f3f;
+    z-index: 1000;
+    height: calc(100vh - 80px);
+    -webkit-calc: calc(100vh - 80px);
+    -moz-calc: calc(100vh - 80px);
+    background: #F2F2F2 url(/images/tpanel.png) repeat-x top;
+    border-top: 0;
+    border-bottom: 4px solid #00acec;
+    /*background-image: url(/images/tpanel.png);*/
+    /*  -moz-transition: all .5s ease .3s;
+                    -o-transition: all .5s ease .3s;
+                    -webkit-transition: all .5s ease .3s;
+                   transition: all .5s ease .3s;*/
+}
+
+    .right-panels .panel-button-wrapper {
+        float: right;
+        margin-right: -58px;
+        margin-top: 180px;
+        width: 60px;
+    }
+/* Handle */
+.panel-wrapper::-webkit-scrollbar {
+    width: 12px;
+    background-color: #f5f5f5;
+}
+
+.panel-wrapper::-webkit-scrollbar-thumb {
+    background-color: #00acec;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+    .panel-wrapper::-webkit-scrollbar-thumb:hover {
+        background-color: #0493c9;
+    }
+
+.panel-wrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.panel-button.btn.btn-lg.btn-blue {
+    background-color: #00acec;
+    text-align: center;
+    border-radius: 0px 20px 20px 0px;
+    border: solid 2px #ffffff;
+}
+
+    .panel-button.btn.btn-lg.btn-blue:hover {
+        opacity: .8;
+    }
+
+    .panel-button.btn.btn-lg.btn-blue.child {
+        border-top: 0px;
+    }
+
+    .panel-button.btn.btn-lg.btn-blue.active {
+        background-color: #0088bb;
+    }
+
+.panel-wrapper {
+    display: none;
+    position: relative;
+    top: -10px;
+    padding: 0px 8px 0px 8px;
+    -webkit-calc: calc(100vh - 150px);
+    -moz-calc: calc(100vh - 150px);
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+div#info-panel {
+    height: calc(100vh - 150px);
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+    .navbar-brand > img {
+        margin-top: 12px;
+        padding: 15px;
+        width: auto;
+    }
+
+.navbar.navbar-inverse.navbar-static-top {
+    background: url(https://servirglobal.net/Portals/_default/Skins/Servir2015/img/headerbg.jpg) no-repeat black;
+    background-size: cover;
+}
+
+.example3 .navbar-brand {
+    height: 60px;
+}
+
+
+
+.example3 .navbar-toggle {
+    padding: 10px;
+    margin: 25px 15px 25px 0;
+}
+
+.navbar-inverse {
+    background-color: #222;
+    border-color: #080808;
+}
+
+.panel-close {
+    position: relative;
+    top: -30px;
+    left: 370px;
+    cursor: pointer;
+    /*border: 1px white outset;*/
+    background-color: #00acec;
+    /*border-radius: 8px;*/
+    border: 0;
+}
+
+    .panel-close:hover {
+        opacity: .8;
+    }
+
+.cooltree {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.card-body.cooltree::after {
+    display: inline-flex;
+}
+
+#layers-panel {
+    /*display: block;*/
+    width: 99%;
+    padding-bottom: 20px;
+}
+
+#panelTitle {
+    position: absolute;
+    top: 14px;
+    width: 90%;
+    text-align: center;
+    /* font-weight: 600;
+    height: 100px;*/
+    color: #ffffff;
+    font-size: 16px;
+}
+
+#accordion {
+    width: 100%;
+}
+
+.bzcheckbox {
+    margin-right: 15px !important;
+}
+
+.cblabel {
+    cursor: pointer;
+}
+
+#sb-loading-inner span {
+    color: #ffffff00;
+}
+
+.adminInput {
+    margin: 0 0 15px;
+    color: #0b6ef2;
+    padding: 15px;
+    font: inherit;
+    float: left;
+    box-shadow: 2px 2px 5px #fff, -2px -2px 3px #dadada, inset 3px 3px 3px #dadada, inset 0 0 0 rgba(255,255,255,.8);
+    -webkit-border-radius: 3px;
+    border: 1px solid #d4d4d4;
+    height: 20px;
+}
+
+input[type="range"].slider {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: calc(100% - 50px) !important;
+    display: inline-block;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #00acec;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #00acec;
+        cursor: pointer;
+    }
+
+.modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+    .modal #container {
+        height: 90%;
+    }
+
+.ui-dialog {
+    padding: unset;
+}
+
+.ui-datepicker-month, .ui-datepicker-year {
+    color: #000;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    width: 30px;
+    margin: unset;
+    top: unset;
+    padding: 1px;
+    height: 30px;
+    border: 0;
+    background-color: unset;
+}
+
+    .ui-dialog .ui-dialog-titlebar-close:hover {
+        background-color: unset;
+        opacity: .8;
+    }
+
+.ui-dialog-titlebar-close:after {
+    content: 'X';
+}
+
+.ui-dialog.ui-dialog-title {
+    margin: 0;
+}
+
+.ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix.ui-draggable-handle {
+    padding: unset;
+}
+
+.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-draggable.ui-resizable {
+    max-height: calc(100vh - 100px);
+    z-index: 1000;
+}
+
+.ui-dialog-content.ui-widget-content {
+    max-height: calc(100vh - 140px) !important;
+    overflow-y: auto;
+}
+
+.ui-widget-content {
+    border: 0;
+    box-shadow: #00acec47 2px 2px 2px;
+}
+
+.ui-widget-header {
+    background: unset;
+    background-color: #00acec;
+    color: #fff !important;
+    line-height: 35px;
+    padding-left: 6px !important;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    -o-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    cursor: default;
+    /*border: 1px solid #666666;*/
+    border-bottom: none;
+}
+
+.ui-datepicker .ui-datepicker-next {
+    background: unset !important;
+    border: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+}
+
+    .ui-datepicker .ui-datepicker-next:hover, .ui-datepicker .ui-datepicker-prev:hover {
+        opacity: .8;
+    }
+
+
+.ui-datepicker .ui-datepicker-prev {
+    background: unset !important;
+    border: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #d3d3d3;
+    background: #e6e6e6 url(images/ui-bg_glass_75_ltblue_1x400.png) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #555555;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    border: 1px solid #aaaaaa;
+    background: #ffffff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    border: 1px solid #999999;
+    background: #dadada url(images/ui-bg_glass_75_serv_green_1x400.png) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    border: 1px solid #fcefa1;
+    background: #fbf9ee url(images/ui-bg_glass_55_fbf9ee_1x400.png) 50% 50% repeat-x;
+    color: #363636;
+}
+
+.stitched_drop {
+    padding: 5px;
+    margin: 5px;
+    background: rgba(0, 172, 236, 0.1411764705882353);
+    color: #000000;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1.3em;
+    border: 2px dashed #2F2F2F;
+    border-radius: 10px;
+    text-shadow: -1px -1px #000000;
+    font-weight: normal;
+}
+
+.toasty {
+    width: 200px;
+    height: 20px;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    bottom: 10px;
+    background-color: #383838;
+    color: #F0F0F0;
+    font-family: Calibri;
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+}
+
+#activeTimelineLayer {
+    width: 100%;
+}
+
+.esriPopup .titleButton.close {
+    top: 10px;
+    right: 8px;
+    background-position: -12px 10px;
+    width: 18px;
+    height: 17px;
+    background: url(/css/images/close-20.png) no-repeat !important;
+    opacity: 1;
+}
+
+.esriPopup.esriPopupVisible {
+    position: fixed !important;
+    z-index: 1001 !important;
+}
+
+.styled-select {
+    overflow: hidden;
+}
+
+    .styled-select select {
+        background: transparent;
+        border: none;
+        font-size: 14px;
+        height: 29px;
+        padding: 5px; /* If you add too much padding here, the options won't show in IE */
+        width: 268px;
+    }
+
+    .styled-select.slate {
+        background: url(/css/images/arrow.jpg) no-repeat right center;
+        height: 34px;
+        width: 290px;
+    }
+
+        .styled-select.slate select {
+            border: 1px solid #ccc;
+            font-size: 16px;
+            height: 34px;
+            width: 328px;
+            padding-right: 42px;
+            -webkit-padding-end: 42px !important;
+        }
+
+.slate {
+    background-color: #ddd;
+}
+
+    .slate select {
+        color: #000;
+    }
+
+.hasDatepicker {
+    border: 1px solid #ccc;
+    font-size: 16px;
+    height: 34px;
+    width: 300px;
+    padding: 5px;
+}
+
+@media (max-width: 768px) {
+    #ismobile {
+        display: block;
+    }
+
+    #myProgress {
+        width: 90vw;
+        position: fixed;
+        top: 50%;
+        left: 5%;
+        margin: unset;
+        background: linear-gradient(to right, #e2edcb, #b9d12a);
+        z-index: 1000000;
+    }
+
+    .right-panels.openpanel {
+        width: 100%;
+    }
+
+    .panel-close.openpanel {
+        left: calc(100vw - 50px);
+        top: -30px;
+    }
+
+    .esriBasemapGalleryThumbnail {
+        float: left;
+        width: 45%;
+    }
+
+    .basemapholder.selected {
+        border: unset;
+    }
+
+    #myTable {
+        display: block;
+    }
+
+    #timeline {
+        max-height: unset;
+    }
+
+    #timeline-header {
+        width: 100%;
+        float: left;
+        padding-bottom: 2px;
+    }
+
+    #visualization {
+        display: block;
+        width: 100%;
+        float: left;
+        height: 55px;
+        font-weight: 700;
+    }
+
+    .styled-select.slate {
+        width: calc(100vw - 150px);
+    }
+
+        .styled-select.slate select {
+            width: calc(100vw - 122px);
+        }
+
+    .hasDatepicker {
+        width: calc(100vw - 150px);
+        margin-right: 20px;
+    }
+
+    #mobilebuffer {
+        max-height: calc(100vh + 50vh);
+        height: calc(100vh + 50vh);
+    }
+}
+
+@media (max-width: 520px) {
+    #sb-wrapper {
+        top: 0px !important;
+        left: 0px !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    #sb-wrapper-inner {
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    #sb-player {
+        display: table;
+    }
+
+    #welcome-msg {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .esriBasemapGalleryThumbnail {
+        border: unset;
+        width: unset;
+        float: unset;
+    }
+
+    .basemapholder:hover {
+        border: unset;
+        width: unset;
+    }
+
+    .basemapholder.selected {
+        border: unset;
+    }
+
+    #maps-panel img {
+        width: 55%;
+    }
+
+    .esriPopup.esriPopupVisible, .esriPopupWrapper.ui-draggable {
+        left: 0 !important;
+    }
+}

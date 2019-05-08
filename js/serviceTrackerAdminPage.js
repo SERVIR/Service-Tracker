@@ -1,6 +1,45 @@
 ﻿let dtTable;
 let googleUser;
 let Key;
+var colorTable = {
+    wwrd: {
+        concept: "#9fd9de",
+        design: "#aad9dd",
+        development: "#bee2e5",
+        delivery: "#d5edef"
+    },
+    lclu: {
+        concept: "#2e8652",
+        design: "#398457",
+        development: "#4a8c64",
+        delivery: "#5d9974"
+    },
+    afs: {
+        concept: "#7eb761",
+        design: "#86b76e",
+        development: "#94bf80",
+        delivery: "#a5c995"
+    },
+    wac: {
+        concept: "#94a3d4",
+        design: "#9eabd6",
+        development: "#afbadd",
+        delivery: "#c9d1e8"
+    }
+}
+var themeObject = {
+    "Water & Water Related Disasters": "wwrd",
+    "Land Cover & Land Use Change & Ecosystems": "lclu",
+    "Agriculture & Food Security": "afs",
+    "Weather & Climate": "wac"
+};
+var hubObject = {
+    "Amazonia": "aza",
+    "Eastern & Southern Africa": "esa",
+    "West Africa": "wa",
+    "Hindu Kush Himalaya": "hkh",
+    "Mekong": "mkg"
+};
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({
     prompt: "select_account"
@@ -113,8 +152,9 @@ $(() => {
     dtTable = $("#dataLayersTable").DataTable({
         columns: [
             { data: "groupName" },
-            { data: "title" },
-            { data: "color" },
+            { data: "hub" },
+            { data: "theme" },
+            { data: "status" },
             { data: "startDate" },
             { data: "endDate" }
         ]
@@ -132,8 +172,9 @@ $(() => {
             clearInput();
             $("#hd-id").val(selectedData.id);
             $("#groupname").val(selectedData.groupName);
-            $("#title").val(selectedData.title);
-            $("#color").val(selectedData.color);
+            $("#hubRegion").val(hubObject[selectedData.hub]);
+            $("#serviceArea").val(themeObject[selectedData.theme]);
+            $("#status").val(selectedData.status.replace("Service", "").toLowerCase().trim());
             $("#startDate").val(selectedData.startDate);
             $("#endDate").val(selectedData.endDate);
             $("#myModal").modal("show");
@@ -160,21 +201,63 @@ saveData = () => {
     const service = {
         id: "",
         groupName: $("#groupname").val(),
-        title: $("#title").val(),
-        color: $("#color").val(),
+        hub: $("#hubRegion option:selected").text(),
+        status: $("#status option:selected").text(),
+        color: $("#serviceArea").val() && $("#status").val() ? colorTable[$("#serviceArea").val()][$("#status").val()] : "#f24915",
         startDate: $("#startDate").datepicker("getDate"),
-        endDate: $("#endDate").datepicker("getDate")
+        endDate: $("#endDate").datepicker("getDate"),
+        theme: $("#serviceArea option:selected").text(),
+        title: $("#status option:selected").text()
+    }
+    if (isValidData(service)) {
+        if ($("#hd-id").val().length > 0) {
+            console.log("update");
+            service.id = $("#hd-id").val()
+            updateMapService(service);
+        } else {
+            console.log("new");
+            Key = db.collection("service/").doc();
+            service.id = Key.id;
+            addMapService(service);
+        }
+    } 
+}
+
+displayToastMessage = (message, error) => {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = message;
+    // Add the "show" class to DIV
+    if (error) {
+
+        x.className = "show error";
+    }
+    else {
+        x.className.replace("error", "");
+        x.className = "show";
     }
 
-    if ($("#hd-id").val().length > 0) {
-        service.id = $("#hd-id").val()
-        updateMapService(service);
-    } else {
-        Key = db.collection("service/").doc();
-        service.id = Key.id;
-        addMapService(service);
+    // After 5 seconds, remove the show class from DIV
+    setTimeout( () => { x.className = x.className.replace("show", ""); }, 5000);
+}
+
+isValidData = service => {
+    let errorMessage = "";
+    /*check data, if error popup error message return false else return true */
+    errorMessage += service.groupName.length == 0 ? "Please enter Service name <br />" : '';
+    errorMessage += service.hub.length == 0 ? "Please select a Region <br />" : '';
+    errorMessage += service.theme.length == 0 ? "Please select a Service Area <br />" : '';
+    errorMessage += service.status.length == 0 ? "Please select a Status <br />" : '';
+    errorMessage += service.startDate == null ? "Please select a Start Date <br />" : '';
+    errorMessage += service.endDate == null ? "Please select an End Date <br />" : '';
+    if (errorMessage.trim().length == 0) {
+        true;
+    }
+    else {
+        displayToastMessage(errorMessage);
+        return false;
     }
 }
+
 deleteData = () => {
     const id = $("#hd-id").val();
     deleteDB(id);
@@ -191,12 +274,13 @@ deleteDB = id => {
 clearInput = () => {
     $("#hd-id").val("");
     $("#groupname").val("");
-    $("#title").val("");
-    $("#color").val("");
+    $("#hubRegion").val("");
+    $("#serviceArea").val("");
+    $("#status").val("");
     $("#startDate").val("");
     $("#endDate").val("");
 }
-
+var debug;
 getData = () => {
     const docRef = db.collection("service").orderBy("startDate");
     docRef.get().then(docData => {
@@ -207,9 +291,12 @@ getData = () => {
                 obj.startDate = getFormattedDate(obj.startDate.toDate());
                 obj.endDate = getFormattedDate(obj.endDate.toDate());
                 obj.id = data.id;
-                arrObj.push(obj);
+                if (obj.title != "Today") {
+                    arrObj.push(obj);
+                }
 
             });
+            debug = arrObj;
             dtTable.clear();
             dtTable.rows.add(arrObj);
             dtTable.draw();

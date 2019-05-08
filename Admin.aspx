@@ -25,8 +25,8 @@
 
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css" />
     <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/servicetracker.css" rel="stylesheet" />
 
+    <link href="css/servicetracker.css" rel="stylesheet" />
     <style>
         #dataLayersTable_wrapper {
             width: 98%;
@@ -43,7 +43,8 @@
         }
     </style>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-
+    <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     <script src="js/jquery-3.4.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -54,13 +55,13 @@
     <script src="js/firebaseconfig.js"></script>
     <script src="js/serviceTracker.js"></script>
     <script src="js/serviceTrackerAdminPage.js"></script>
-
+    
 </head>
 <body>
     <form id="form1" runat="server">
         <div style="width: 100%; height: 100%; margin: 0;">
             <div class="sticky">
-                <div class="example3 " id="nav-wrapper">
+                <div id="nav-wrapper">
                     <nav class="navbar navbar-inverse navbar-static-top">
                         <div class="container">
                             <div class="navbar-header">
@@ -74,7 +75,7 @@
                                     <img src="images/logo.png" alt="SERVIR Global" />
                                 </a>
                             </div>
-                            <div id="navbar3" class="navbar-collapse collapse no-transition">
+                            <div id="navbar3" class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav navbar-right">
                                     <li><a href="/">Service Tracker</a></li>
 
@@ -102,9 +103,10 @@
                             <table id="dataLayersTable" class="table table-striped table-bordered" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Group Name</th>
-                                        <th>Title</th>
-                                        <th>Color</th>
+                                        <th>Service Name</th>
+                                        <th>Region</th>
+                                        <th>Service Area</th>
+                                        <th>Status</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                     </tr>
@@ -118,22 +120,43 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <h4 class="modal-title" id="dataLayersTableModalLabel">New Layer</h4>
+                                        <h4 class="modal-title" id="dataLayersTableModalLabel">New Service</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form>
-                                            <input type="hidden" id="hd-id">
+                                            <input type="hidden" id="hd-id" />
                                             <div class="form-group">
-                                                <label for="groupname">Group Name:</label><br />
-                                                <input type="text" name="groupname" id="groupname" value="" placeholder="Group Name" class="text ui-widget-content ui-corner-all testforminput fullwidth adminInput" /><br />
+                                                <label for="groupname">Service Name:</label><br />
+                                                <input type="text" name="groupname" id="groupname" value="" placeholder="Service Name" class="text ui-widget-content ui-corner-all testforminput fullwidth adminInput" /><br />
+                                            </div>             <div class="form-group">
+                                                <label for="hubRegion">Region:</label><br />
+                                                <select id="hubRegion" name="hubRegion">
+                                                    <option value="aza">Amazonia</option>
+                                                    <option value="esa">Eastern & Southern Africa</option>
+                                                    <option value="wa">West Africa</option>
+                                                    <option value="hkh">Hindu Kush Himalaya</option>
+                                                    <option value="mkg">Mekong</option>
+                                                </select>
+                                                <br />
                                             </div>
                                             <div class="form-group">
-                                                <label for="title">Title:</label><br />
-                                                <input type="text" name="title" id="title" value="" placeholder="Title" class="text ui-widget-content ui-corner-all testforminput fullwidth adminInput" /><br />
+                                                <label for="serviceArea">Service Area:</label><br />
+                                                <select id="serviceArea" name="serviceArea">
+                                                    <option value="wwrd">Water & Water Related Disasters</option>
+                                                    <option value="lclu">Land Cover & Land Use Change & Ecosystems</option>
+                                                    <option value="afs">Agriculture & Food Security</option>
+                                                    <option value="wac">Weather & Climate</option>
+                                                </select>
+                                                <br />
                                             </div>
                                             <div class="form-group">
-                                                <label for="color">Color:</label><br />
-                                                <input type="text" name="color" id="color" value="" placeholder="color" class="text ui-widget-content ui-corner-all testforminput fullwidth adminInput" /><br />
+                                                <label for="status">Service Status:</label><br />
+                                                <select id="status" name="status">
+                                                    <option value="concept">Service Concept</option>
+                                                    <option value="design">Service Design</option>
+                                                    <option value="development">Service Development</option>
+                                                    <option value="delivery">Service Delivery</option>
+                                                </select><br />
                                             </div>
                                             <div class="form-group">
                                                 <label for="startDate">Start Date:</label><br />
@@ -150,6 +173,7 @@
                                         <button id="btnSave" type="button" class="btn btn-primary">Save</button>
                                         <button id="btnDelete" type="button" class="btn btn-error">Delete</button>
                                     </div>
+                                    <div id="snackbar"></div>
                                 </div>
                             </div>
                         </div>
@@ -164,6 +188,8 @@
                 </div>
             </div>
         </div>
+         <!-- //smooth scrolling -->
+        
         <span id="ismobile" class="ismobile"></span>
     </form>
 </body>

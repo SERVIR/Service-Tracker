@@ -4,6 +4,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="SERVIR Service Tracker" />
     <title>SERVIR Service Tracker</title>
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
@@ -26,6 +29,10 @@
     <link href="css/servicetracker.css" rel="stylesheet" />
 
     <style>
+        html, body, #form1{
+            height:100%;
+            width:100%;
+        }
         #dataLayersTable_wrapper {
             width: 98%;
             margin-right: auto;
@@ -38,6 +45,7 @@
     </style>
 
     <script src="js/jquery-3.4.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
@@ -54,7 +62,7 @@
     <form id="form1" runat="server">
         <div style="width: 100%; height: 100%; margin: 0;">
             <div class="sticky">
-                <div class="example3 " id="nav-wrapper">
+                <div id="nav-wrapper">
                     <nav class="navbar navbar-inverse navbar-static-top">
                         <div class="container">
                             <div class="navbar-header">
@@ -68,7 +76,7 @@
                                     <img src="images/logo.png" alt="SERVIR Global" />
                                 </a>
                             </div>
-                            <div id="navbar3" class="navbar-collapse collapse no-transition">
+                            <div id="navbar3" class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav navbar-right">
                                     <li><a href="/">Service Tracker</a></li>
                                 </ul>
@@ -79,6 +87,21 @@
                     </nav>
                 </div>
                 <div id="userForm">
+                    <p style="padding: 5px 10px; margin-right:15px;">
+                        <span style="font-weight: 600;">Filter By Region:</span>
+                        <input type="checkbox" id="aza" name="hubFilter" onclick="filterGroup();" class="form-check-input" style="margin-right:5px; margin-left:10px;"/>Amazonia
+                        <input type="checkbox" id="esa" name="hubFilter" onclick="filterGroup();" class="form-check-input"  style="margin-right:5px; margin-left:10px;"/>Eastern & Southern Africa
+                        <input type="checkbox" id="wa" name="hubFilter" onclick="filterGroup();" class="form-check-input"  style="margin-right:5px; margin-left:10px;"/>West Africa
+                        <input type="checkbox" id="hkh" name="hubFilter" onclick="filterGroup();" class="form-check-input"  style="margin-right:5px; margin-left:10px;"/>Hindu Kush Himalaya
+                        <input type="checkbox" id="mkg" name="hubFilter" onclick="filterGroup();" class="form-check-input"  style="margin-right:5px; margin-left:10px;"/>Mekong
+                    </p>
+                    <p style="padding: 5px 10px; margin-right:15px;">
+                        <span style="font-weight: 600;">Filter By Theme:</span>
+                        <input type="checkbox" id="wwrd" name="themeFilter" onclick="filterGroup();" class="form-check-input" style="margin-right:5px; margin-left:10px;"/>Water & Water Related Disasters
+                        <input type="checkbox" id="lclu" name="themeFilter" onclick="filterGroup();" class="form-check-input"  style="margin-right:5px; margin-left:10px;"/>Land Cover & Land Use Change & Ecosystems
+                        <input type="checkbox" id="afs" name="themeFilter" onclick="filterGroup();" class="form-check-input"  style="margin-right:5px; margin-left:10px;"/>Agriculture & Food Security
+                        <input type="checkbox" id="wac" name="themeFilter" onclick="filterGroup();" class="form-check-input"  style="margin-right:5px; margin-left:10px;"/>Weather & Climate
+                    </p>
                     <div id="chartdiv"></div>
                 </div>
             </div>

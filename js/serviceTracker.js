@@ -178,7 +178,13 @@ completeChartDraw = () => {
         console.log("height: " + height);
         $("#chartdiv").height(height);
         dataTable.addRows(OArray);
-        chart.draw(dataTable);
+        chart.draw(dataTable, {explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomIn: 4.0
+        }
+        });
     } else {
         alert("Sorry we have no records for that yet");
     }

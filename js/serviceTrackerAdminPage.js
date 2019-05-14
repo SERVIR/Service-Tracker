@@ -1,7 +1,7 @@
 ﻿let dtTable;
 let googleUser;
 let Key;
-var colorTable = {
+const colorTable = {
     wwrd: {
         concept: "#9fd9de",
         design: "#aad9dd",
@@ -27,13 +27,13 @@ var colorTable = {
         delivery: "#c9d1e8"
     }
 }
-var themeObject = {
+const themeObject = {
     "Water & Water Related Disasters": "wwrd",
     "Land Cover & Land Use Change & Ecosystems": "lclu",
     "Agriculture & Food Security": "afs",
     "Weather & Climate": "wac"
 };
-var hubObject = {
+const hubObject = {
     "Amazonia": "aza",
     "Eastern & Southern Africa": "esa",
     "West Africa": "wa",
@@ -250,7 +250,7 @@ isValidData = service => {
     errorMessage += service.startDate == null ? "Please select a Start Date <br />" : '';
     errorMessage += service.endDate == null ? "Please select an End Date <br />" : '';
     if (errorMessage.trim().length == 0) {
-        true;
+        return true;
     }
     else {
         displayToastMessage(errorMessage);

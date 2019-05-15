@@ -1,7 +1,7 @@
 ﻿let dtTable;
 let googleUser;
 let Key;
-const colorTable = {
+var colorTable = {
     wwrd: {
         concept: "#9fd9de",
         design: "#aad9dd",
@@ -27,13 +27,13 @@ const colorTable = {
         delivery: "#c9d1e8"
     }
 }
-const themeObject = {
+themeObject = {
     "Water & Water Related Disasters": "wwrd",
     "Land Cover & Land Use Change & Ecosystems": "lclu",
     "Agriculture & Food Security": "afs",
     "Weather & Climate": "wac"
 };
-const hubObject = {
+hubObject = {
     "Amazonia": "aza",
     "Eastern & Southern Africa": "esa",
     "West Africa": "wa",
@@ -220,7 +220,7 @@ saveData = () => {
             service.id = Key.id;
             addMapService(service);
         }
-    } 
+    }
 }
 
 displayToastMessage = (message, error) => {
@@ -228,31 +228,36 @@ displayToastMessage = (message, error) => {
     x.innerHTML = message;
     // Add the "show" class to DIV
     if (error) {
-
         x.className = "show error";
-    }
-    else {
+    } else {
         x.className.replace("error", "");
         x.className = "show";
     }
 
     // After 5 seconds, remove the show class from DIV
-    setTimeout( () => { x.className = x.className.replace("show", ""); }, 5000);
+    setTimeout(() => { x.className = x.className.replace("show", ""); }, 5000);
 }
 
 isValidData = service => {
     let errorMessage = "";
     /*check data, if error popup error message return false else return true */
-    errorMessage += service.groupName.length == 0 ? "Please enter Service name <br />" : '';
-    errorMessage += service.hub.length == 0 ? "Please select a Region <br />" : '';
-    errorMessage += service.theme.length == 0 ? "Please select a Service Area <br />" : '';
-    errorMessage += service.status.length == 0 ? "Please select a Status <br />" : '';
-    errorMessage += service.startDate == null ? "Please select a Start Date <br />" : '';
-    errorMessage += service.endDate == null ? "Please select an End Date <br />" : '';
+    errorMessage = (service.groupName.length == 0
+        ? "Please enter Service name <br />"
+        : '') + (service.hub.length == 0
+            ? "Please select a Region <br />"
+            : '') + (service.theme.length == 0
+                ? "Please select a Service Area <br />"
+                : '') + (service.status.length == 0
+                    ? "Please select a Status <br />"
+                    : '') + (service.startDate == null
+                        ? "Please select a Start Date <br />"
+                        : '') + (service.endDate == null
+                            ? "Please select an End Date <br />"
+                            : '');
+
     if (errorMessage.trim().length == 0) {
         return true;
-    }
-    else {
+    } else {
         displayToastMessage(errorMessage);
         return false;
     }

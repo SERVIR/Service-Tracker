@@ -1,4 +1,10 @@
 ﻿// Initialize Firebase
+
+/*
+possible chart zoom:
+https://developers.google.com/chart/interactive/docs/gallery/controls
+https://jsfiddle.net/hicaro/vk8oaryy/8/
+*/
 firebase.initializeApp(config);
 const db = firebase.firestore();
 if (typeof google !== "undefined") {
@@ -13,15 +19,16 @@ startApp = () => {
 }
 let chart;
 let dataTable;
-var fullselection;
+let OArray = [];
+let returnCount = 0;
 
-var themeObject = {
+let themeObject = {
     wwrd: "Water & Water Related Disasters",
     lclu: "Land Cover & Land Use Change & Ecosystems",
     afs: "Agriculture & Food Security",
     wac: "Weather & Climate"
 };
-var hubObject = {
+let hubObject = {
     aza: "Amazonia",
     esa: "Eastern & Southern Africa",
     wa: "West Africa",
@@ -34,7 +41,6 @@ drawChart = () => {
      dataTable = ResetDataTable();
     selectHandler = () => {
         const selectedItem = chart.getSelection()[0];
-        fullselection = chart.getSelection();
         if (selectedItem) {
             try {
                 console.log("The user selected " + dataTable.getValue(selectedItem.row, 1) + " in " + dataTable.getValue(selectedItem.row, 0));
@@ -56,18 +62,18 @@ ResetDataTable = () => {
 }
 
 function filterGroup() {
-    var hubFilter = $("input[name='hubFilter']:checked");
-    var themeFilter = $("input[name='themeFilter']:checked");
+    const hubFilter = $("input[name='hubFilter']:checked");
+    const themeFilter = $("input[name='themeFilter']:checked");
     if (hubFilter.length > 0 || themeFilter.length > 0) {
-        var filter = [];
-        for (var i = 0; i < hubFilter.length; i++) {
+        let filter = [];
+        for (let i = 0; i < hubFilter.length; i++) {
             filter.push( {
                 a: "hub", b: "==", c: hubObject[hubFilter[i].id]
             }); 
         }
 
         let themeFilterArray = [];
-        for (var i = 0; i < themeFilter.length; i++) {
+        for (let i = 0; i < themeFilter.length; i++) {
             themeFilterArray.push({
                 a: "theme", b: "==", c: themeObject[themeFilter[i].id]
             });
@@ -78,8 +84,6 @@ function filterGroup() {
     }
 }
 
-let OArray = [];
-var returnCount = 0;
 getData = (filterObj, themeFilter) => {
     chart.clearChart();
     let dataTable = ResetDataTable();
@@ -196,8 +200,7 @@ json2array = json => {
         if (key == "startDate" || key == "endDate") {
             if (json["title"].toLowerCase() === "today") {
                 result.push(new Date());
-            }
-            else {
+            } else {
                 result.push(json[key].toDate());
             }
         } else {

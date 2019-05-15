@@ -46,6 +46,9 @@
         routes.MapPageRoute("admin",
         "admin",
         "~/Admin.aspx");
+        routes.MapPageRoute("zoom",
+        "zoom",
+        "~/ZoomTest.aspx");
     }
        
 </script>

@@ -48,7 +48,7 @@
     </style>
 
     <script src="js/jquery-3.4.0.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
     <script src="js/jQDateRangeSlider-min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>

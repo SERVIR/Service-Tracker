@@ -28,7 +28,7 @@
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
     <link rel="stylesheet" href="css/classic-min.css" />
-    <link href="css/servicetracker.css" rel="stylesheet" />
+    <link href="css/servicetracker.css?v=1.3" rel="stylesheet" />
 
     <style>
         html, body, #form1 {

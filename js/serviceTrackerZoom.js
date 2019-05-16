@@ -239,24 +239,29 @@ completeChartDraw = () => {
 
             // http://ghusse.github.io/jQRangeSlider/stable/demo/
             // http://ghusse.github.io/jQRangeSlider/documentation.html#valueLabelsOption
-            $("#filter_mobile").dateRangeSlider({
-                bounds: {
-                    min: new Date(2001, 1, 1),
-                    max: new Date(2020, 9, 1)
-                },
-                defaultValues: {
-                    min: new Date(2001, 1, 1),
-                    max: new Date(2020, 9, 1)
-                },
-                step: {
-                    months: 1
-                },
-                arrows: true,
-                wheelMode: null
-            }).bind('valuesChanged', function (e, data) {
-                control.setState({ range: { start: data.values.min, end: data.values.max } });
-                control.draw();
-            });
+            try {
+                $("#filter_mobile").dateRangeSlider({
+                    bounds: {
+                        min: new Date(2001, 1, 1),
+                        max: new Date(2020, 9, 1)
+                    },
+                    defaultValues: {
+                        min: new Date(2001, 1, 1),
+                        max: new Date(2020, 9, 1)
+                    },
+                    step: {
+                        months: 1
+                    },
+                    arrows: true,
+                    wheelMode: null
+                }).bind('valuesChanged', function (e, data) {
+                    control.setState({ range: { start: data.values.min, end: data.values.max } });
+                    control.draw();
+                });
+            } catch (e) {
+                console.log(e.message);
+            }
+
         }
 
     } else {

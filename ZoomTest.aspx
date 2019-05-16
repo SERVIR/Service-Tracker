@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/servicetracker.css" rel="stylesheet" />
-     <link href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" rel="stylesheet" />
+
     <style>
         html, body, #form1 {
             height: 100%;
@@ -46,14 +46,14 @@
     </style>
 
     <script src="js/jquery-3.4.0.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/touchjs/0.2.14/touch.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="js/firebaseconfig.js"></script>
-    <script src="js/serviceTrackerZoom.js"></script>
+    <script src="js/serviceTrackerZoom.js?v=1.2"></script>
     <script type="text/javascript">
         $(() => {
             startApp();

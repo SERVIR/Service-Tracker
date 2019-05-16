@@ -77,7 +77,9 @@ drawChart = () => {
     //}, false);
 
     selectHandler = () => {
-        const selectedItem = chart.getSelection()[0];
+        console.log("selectHandler");
+        const selectedItem = chart.getChart().getSelection()[0];
+        debugSelect = chart.getChart().getSelection();
         if (selectedItem) {
             try {
                 console.log("The user selected " + dataTable.getValue(selectedItem.row, 1) + " in " + dataTable.getValue(selectedItem.row, 0));
@@ -88,6 +90,8 @@ drawChart = () => {
     getData();
     google.visualization.events.addListener(chart, 'ready', updateChartHeight);
 }
+
+var debugSelect;
 
 ResetDataTable = () => {
     dataTable = new google.visualization.DataTable();

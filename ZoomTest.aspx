@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/servicetracker.css" rel="stylesheet" />
-
+     <link href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" rel="stylesheet" />
     <style>
         html, body, #form1 {
             height: 100%;
@@ -46,6 +46,7 @@
     </style>
 
     <script src="js/jquery-3.4.0.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-firestore.js"></script>
@@ -107,7 +108,7 @@
                     <div id="dashboard_div">
                         <div id="filter_div"></div>
                         
-                        <div id="control_div" style="height:50px;;"></div>
+                        <div id="control_div" style="height:50px;"></div>
                         <div id="chartdiv"></div>
                         <div id="table_div"></div>
                     </div>

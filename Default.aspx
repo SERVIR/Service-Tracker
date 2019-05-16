@@ -59,7 +59,7 @@
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="js/firebaseconfig.js"></script>
-    <script src="js/serviceTracker.js?v=1.2"></script>
+    <script src="js/serviceTracker.js?v=1.3"></script>
     <script type="text/javascript">
         $(() => {
             startApp();

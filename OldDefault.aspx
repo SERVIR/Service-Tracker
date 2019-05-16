@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ZoomTest.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="OldDefault.aspx.cs" Inherits="_Default" %>
 
 <!DOCTYPE html>
 
@@ -26,8 +26,6 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
     <link href="css/bootstrap.css" rel="stylesheet" />
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
-    <link rel="stylesheet" href="css/classic-min.css" />
     <link href="css/servicetracker.css" rel="stylesheet" />
 
     <style>
@@ -48,15 +46,13 @@
     </style>
 
     <script src="js/jquery-3.4.0.min.js"></script>
-    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-    <script src="js/jQDateRangeSlider-min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="js/firebaseconfig.js"></script>
-    <script src="js/serviceTrackerZoom.js?v=1.2"></script>
+    <script src="js/serviceTracker.js"></script>
     <script type="text/javascript">
         $(() => {
             startApp();
@@ -109,11 +105,9 @@
                     </p>
 
                     <div id="dashboard_div">
-                        <div id="filter_div"></div>
-                        
-                        <div id="control_div" style="height:50px;"></div>
-                        <div id="filter_mobile"></div>
                         <div id="chartdiv"></div>
+                        <div id="control_div"></div>
+                        <div id="table_div"></div>
                     </div>
                 </div>
             </div>

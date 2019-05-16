@@ -1,22 +1,15 @@
 ﻿// Initialize Firebase
-
-/*
-possible chart zoom:
-https://developers.google.com/chart/interactive/docs/gallery/controls
-https://jsfiddle.net/hicaro/vk8oaryy/8/
-*/
 firebase.initializeApp(config);
 const db = firebase.firestore();
 if (typeof google !== "undefined") {
-    google.charts.load("current", { packages: ["timeline"] });
+    google.charts.load('visualization', '1', { packages: ["corechart", "controls", "timeline", "charteditor"] });
 }
-startApp = () => {
-    try {
-        drawChart();
-    } catch (e) {
-        setTimeout(startApp, 100);
-    }
-}
+
+let dashboard;
+let dash;
+let control;
+let is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+let gEvent;
 let chart;
 let dataTable;
 let OArray = [];
@@ -28,6 +21,7 @@ let themeObject = {
     afs: "Agriculture & Food Security",
     wac: "Weather & Climate"
 };
+
 let hubObject = {
     aza: "Amazonia",
     esa: "Eastern & Southern Africa",
@@ -35,21 +29,59 @@ let hubObject = {
     hkh: "Hindu Kush Himalaya",
     mkg: "Mekong"
 };
-drawChart = () => {
-    const container = document.getElementById("chartdiv");
-     chart = new google.visualization.Timeline(container);
-     dataTable = ResetDataTable();
-    selectHandler = () => {
-        const selectedItem = chart.getSelection()[0];
-        if (selectedItem) {
-            try {
-                console.log("The user selected " + dataTable.getValue(selectedItem.row, 1) + " in " + dataTable.getValue(selectedItem.row, 0));
-            } catch (e) { }
-        }
+
+startApp = () => {
+    try {
+        drawChart();
+    } catch (e) {
+        setTimeout(startApp, 100);
     }
+};
+
+drawChart = () => {
+
+    dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
+    chart = new google.visualization.ChartWrapper({
+        'chartType': 'Timeline',
+        'containerId': 'chartdiv'
+    });
+    control = new google.visualization.ControlWrapper({
+        controlType: 'ChartRangeFilter',
+        containerId: 'control_div',
+        options: {
+            filterColumnIndex: 3,
+            'ui': {
+                'chartView': { 'columns': [3, 4] },
+                height: 50
+            }
+        }
+    });
+    dash.bind([control], [chart]);
+    dataTable = ResetDataTable();
     google.visualization.events.addListener(chart, "select", selectHandler);
     getData();
-}
+    gEvent = google.visualization.events.addListener(chart, 'ready', updateChartHeight);
+};
+
+updateChartHeight = () => {
+    $("#chartdiv").height($($("#chartdiv svg")[0]).find("g")[0].getBBox().height + 50);
+    google.visualization.events.removeListener(gEvent);
+    displayTopToastMessage("Try out the new time range slider <br /> Drag the date labels");
+    gEvent = google.visualization.events.addListener(chart, 'ready', hidePopups);
+};
+
+hidePopups = () => {
+    $(".google-visualization-tooltip").hide();
+};
+
+selectHandler = () => {
+    const selectedItem = chart.getChart().getSelection()[0];
+    if (selectedItem) {
+        try {
+            console.log("The user selected " + dataTable.getValue(selectedItem.row, 1) + " in " + dataTable.getValue(selectedItem.row, 0));
+        } catch (e) { }
+    }
+};
 
 ResetDataTable = () => {
     dataTable = new google.visualization.DataTable();
@@ -59,17 +91,17 @@ ResetDataTable = () => {
     dataTable.addColumn({ type: "date", id: "Start" });
     dataTable.addColumn({ type: "date", id: "End" });
     return dataTable;
-}
+};
 
-function filterGroup() {
+filterGroup = () => {
     const hubFilter = $("input[name='hubFilter']:checked");
     const themeFilter = $("input[name='themeFilter']:checked");
     if (hubFilter.length > 0 || themeFilter.length > 0) {
         let filter = [];
         for (let i = 0; i < hubFilter.length; i++) {
-            filter.push( {
+            filter.push({
                 a: "hub", b: "==", c: hubObject[hubFilter[i].id]
-            }); 
+            });
         }
 
         let themeFilterArray = [];
@@ -82,15 +114,14 @@ function filterGroup() {
     } else {
         getData();
     }
-}
+};
 
 getData = (filterObj, themeFilter) => {
-    chart.clearChart();
     let dataTable = ResetDataTable();
     OArray = [];
     let docRef;
     if (filterObj && filterObj.length > 0) {
-        for (var i = 0; i < filterObj.length; i++) {
+        for (let i = 0; i < filterObj.length; i++) {
             docRef = db.collection("service").where(filterObj[i].a, filterObj[i].b, filterObj[i].c).orderBy("startDate");
             docRef.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -104,8 +135,8 @@ getData = (filterObj, themeFilter) => {
                             alert("Sorry we have no records for that yet");
                         } else {
                             if (themeFilter.length > 0) {
-                                var filtered = [];
-                                themeFilter.forEach(function (s) {
+                                let filtered = [];
+                                themeFilter.forEach(s => {
                                     let temp = [];
                                     temp = OArray.filter(service => service[5] == s.c);
                                     filtered = filtered.concat(temp);
@@ -122,13 +153,10 @@ getData = (filterObj, themeFilter) => {
                 .catch(() => alert("Sorry we have no records for that yet"));
         }
     } else if (themeFilter) {
-        console.log("just theme");
-        console.log(themeFilter);
-        for (var i = 0; i < themeFilter.length; i++) {
+        for (let i = 0; i < themeFilter.length; i++) {
             docRef = db.collection("service").where(themeFilter[i].a, themeFilter[i].b, themeFilter[i].c);
             docRef.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log(doc.data());
                     OArray.push(json2array(doc.data()));
                 });
             })
@@ -138,7 +166,7 @@ getData = (filterObj, themeFilter) => {
                         if (OArray.length === 0) {
                             alert("Sorry we have no records for that yet");
                         } else {
-                            
+
                             removeExtraAttribute();
                             completeChartDraw();
                         }
@@ -146,7 +174,7 @@ getData = (filterObj, themeFilter) => {
                         returnCount++;
                     }
                 })
-                .catch(() => alert("Sorry we have no records for that yet") );
+                .catch(() => alert("Sorry we have no records for that yet"));
         }
     } else {
         docRef = db.collection("service").orderBy("startDate");
@@ -161,38 +189,63 @@ getData = (filterObj, themeFilter) => {
             })
             .catch(() => alert("Sorry we have no records for that yet"));
     }
-}
+};
+
 removeExtraAttribute = () => {
-    var tempArray = [];
-    OArray.forEach(function (aObject) {
+    let tempArray = [];
+    OArray.forEach(aObject => {
         if (aObject.length == 6) {
             aObject.splice(-1, 1);
         }
         tempArray.push(aObject);
     });
-    tempArray.sort(function (a, b) {
+    tempArray.sort((a, b) => {
         return new Date(a[3]) - new Date(b[3]);
     });
     OArray = tempArray;
-}
+};
+
 completeChartDraw = () => {
     if (OArray.length > 0) {
-        var height = OArray.length * 30 + 80;
-
-        console.log("height: " + height);
+        const height = OArray.length * 30 + 80;
         $("#chartdiv").height(height);
         dataTable.addRows(OArray);
-        chart.draw(dataTable, {explorer: {
-            actions: ['dragToZoom', 'rightClickToReset'],
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomIn: 4.0
-        }
-        });
+        dash.draw(dataTable);
+        switchControl();
     } else {
         alert("Sorry we have no records for that yet");
     }
-}
+};
+
+switchControl = () => {
+    $('#control_div').hide();
+    $('#filter_mobile').show();
+    try {
+        $("#filter_mobile").dateRangeSlider({
+            bounds: {
+                min: new Date(2010, 0, 1),
+                max: new Date(2020, 9, 1)
+            },
+            defaultValues: {
+                min: new Date(2010, 0, 1),
+                max: new Date(2020, 9, 1)
+            },
+            step: {
+                months: 1
+            },
+            arrows: true,
+            wheelMode: null
+        }).bind('valuesChanged', (e, data) => {
+            try {
+                control.setState({ range: { start: data.values.min, end: data.values.max } });
+                control.draw();
+            } catch (e) { e.message; }
+        });
+    } catch (e) {
+        console.log(e.message);
+    }
+};
+
 json2array = json => {
     let result = [];
     const keys = ["groupName", "title", "color", "startDate", "endDate", "theme"];
@@ -208,19 +261,19 @@ json2array = json => {
         }
     });
     return result;
+};
+
+displayTopToastMessage = (message, error) => {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = message;
+    // Add the "show" class to DIV
+    if (error) {
+        x.className = "top show error";
+    } else {
+        x.className.replace("error", "");
+        x.className = "top show";
+    }
+    // After 5 seconds, remove the show class from DIV
+    setTimeout(() => { x.className = x.className.replace("show", ""); }, 4900);
 }
-createService = (groupName, title, color, startDate, endDate) => {
-    db.collection("service").add({
-        groupName: groupName,
-        title: title,
-        color: color,
-        startDate: startDate,
-        endDate: endDate
-    })
-        .then(docRef => {
-            console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(error => {
-            console.error("Error adding document: ", error);
-        });
-}
+

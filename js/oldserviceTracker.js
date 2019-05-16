@@ -8,20 +8,12 @@ https://jsfiddle.net/hicaro/vk8oaryy/8/
 firebase.initializeApp(config);
 const db = firebase.firestore();
 if (typeof google !== "undefined") {
-    google.charts.load('visualization', '1', { packages: ["corechart", "controls", "timeline", "charteditor"] });
+    google.charts.load("current", { packages: ["timeline"] });
 }
-
-var dashboard;
-var dash;
-var control;
-var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
-
 startApp = () => {
     try {
-        //console.log("commented out");
         drawChart();
     } catch (e) {
-
         setTimeout(startApp, 100);
     }
 }
@@ -44,43 +36,11 @@ let hubObject = {
     mkg: "Mekong"
 };
 drawChart = () => {
-
-    dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
-    chart = new google.visualization.ChartWrapper({
-        'chartType': 'Timeline',
-        'containerId': 'chartdiv'
-    });
-    control = new google.visualization.ControlWrapper({
-        controlType: 'ChartRangeFilter',
-        containerId: 'control_div',
-        options: {
-            filterColumnIndex: 3,
-            'ui': {
-                'chartView': { 'columns': [3, 4] },
-                height: 50
-            }
-        }
-    });
-    dash.bind([control], [chart]);
-    dataTable = ResetDataTable();
-
-    updateChartHeight = () => {
-        //if ($("svg").length === 3) {
-        //    $("#chartdiv").height($("#chartdiv svg")[0].getBBox().height + 30);
-        //} else if ($("svg").length === 4) {
-        //   // $("svg")[3].parentNode
-        //}
-    }
-
-    //window.addEventListener('mouseup', function (e) {
-    //    console.log("should do it");
-    //    $("#chartdiv").height($("#chartdiv svg")[0].getBBox().height + 30);
-    //}, false);
-
+    const container = document.getElementById("chartdiv");
+     chart = new google.visualization.Timeline(container);
+     dataTable = ResetDataTable();
     selectHandler = () => {
-        console.log("selectHandler");
-        const selectedItem = chart.getChart().getSelection()[0];
-        debugSelect = chart.getChart().getSelection();
+        const selectedItem = chart.getSelection()[0];
         if (selectedItem) {
             try {
                 console.log("The user selected " + dataTable.getValue(selectedItem.row, 1) + " in " + dataTable.getValue(selectedItem.row, 0));
@@ -89,10 +49,7 @@ drawChart = () => {
     }
     google.visualization.events.addListener(chart, "select", selectHandler);
     getData();
-    google.visualization.events.addListener(chart, 'ready', updateChartHeight);
 }
-
-var debugSelect;
 
 ResetDataTable = () => {
     dataTable = new google.visualization.DataTable();
@@ -128,15 +85,11 @@ function filterGroup() {
 }
 
 getData = (filterObj, themeFilter) => {
-    console.log("getData");
-    //chart.clearChart();
-    console.log("1");
+    chart.clearChart();
     let dataTable = ResetDataTable();
-    console.log("2");
     OArray = [];
     let docRef;
     if (filterObj && filterObj.length > 0) {
-        console.log("filtering");
         for (var i = 0; i < filterObj.length; i++) {
             docRef = db.collection("service").where(filterObj[i].a, filterObj[i].b, filterObj[i].c).orderBy("startDate");
             docRef.get().then((querySnapshot) => {
@@ -159,7 +112,6 @@ getData = (filterObj, themeFilter) => {
                                 });
                                 OArray = filtered;
                             }
-                            console.log(OArray);
                             removeExtraAttribute();
                             completeChartDraw();
                         }
@@ -197,7 +149,6 @@ getData = (filterObj, themeFilter) => {
                 .catch(() => alert("Sorry we have no records for that yet") );
         }
     } else {
-        console.log("just service");
         docRef = db.collection("service").orderBy("startDate");
         docRef.get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -231,39 +182,13 @@ completeChartDraw = () => {
         console.log("height: " + height);
         $("#chartdiv").height(height);
         dataTable.addRows(OArray);
-        dash.draw(dataTable);
-
-        if (is_mobile) {
-            $('#control_div').hide();
-            $('#filter_mobile').show();
-
-            // http://ghusse.github.io/jQRangeSlider/stable/demo/
-            // http://ghusse.github.io/jQRangeSlider/documentation.html#valueLabelsOption
-            try {
-                $("#filter_mobile").dateRangeSlider({
-                    bounds: {
-                        min: new Date(2001, 1, 1),
-                        max: new Date(2020, 9, 1)
-                    },
-                    defaultValues: {
-                        min: new Date(2001, 1, 1),
-                        max: new Date(2020, 9, 1)
-                    },
-                    step: {
-                        months: 1
-                    },
-                    arrows: true,
-                    wheelMode: null
-                }).bind('valuesChanged', function (e, data) {
-                    control.setState({ range: { start: data.values.min, end: data.values.max } });
-                    control.draw();
-                });
-            } catch (e) {
-                console.log(e.message);
-            }
-
+        chart.draw(dataTable, {explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomIn: 4.0
         }
-
+        });
     } else {
         alert("Sorry we have no records for that yet");
     }

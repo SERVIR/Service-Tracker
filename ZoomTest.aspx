@@ -26,6 +26,8 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
     <link href="css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
+    <link rel="stylesheet" href="css/classic-min.css" />
     <link href="css/servicetracker.css" rel="stylesheet" />
 
     <style>
@@ -46,7 +48,8 @@
     </style>
 
     <script src="js/jquery-3.4.0.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/touchjs/0.2.14/touch.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script src="js/jQDateRangeSlider-min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-firestore.js"></script>
@@ -109,8 +112,8 @@
                         <div id="filter_div"></div>
                         
                         <div id="control_div" style="height:50px;"></div>
+                        <div id="filter_mobile"></div>
                         <div id="chartdiv"></div>
-                        <div id="table_div"></div>
                     </div>
                 </div>
             </div>

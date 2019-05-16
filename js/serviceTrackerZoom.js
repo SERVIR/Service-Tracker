@@ -14,6 +14,7 @@ if (typeof google !== "undefined") {
 var dashboard;
 var dash;
 var control;
+var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
 
 startApp = () => {
     try {
@@ -231,6 +232,33 @@ completeChartDraw = () => {
         $("#chartdiv").height(height);
         dataTable.addRows(OArray);
         dash.draw(dataTable);
+
+        if (is_mobile) {
+            $('#control_div').hide();
+            $('#filter_mobile').show();
+
+            // http://ghusse.github.io/jQRangeSlider/stable/demo/
+            // http://ghusse.github.io/jQRangeSlider/documentation.html#valueLabelsOption
+            $("#filter_mobile").dateRangeSlider({
+                bounds: {
+                    min: new Date(2001, 1, 1),
+                    max: new Date(2020, 9, 1)
+                },
+                defaultValues: {
+                    min: new Date(2001, 1, 1),
+                    max: new Date(2020, 9, 1)
+                },
+                step: {
+                    months: 1
+                },
+                arrows: true,
+                wheelMode: null
+            }).bind('valuesChanged', function (e, data) {
+                control.setState({ range: { start: data.values.min, end: data.values.max } });
+                control.draw();
+            });
+        }
+
     } else {
         alert("Sorry we have no records for that yet");
     }

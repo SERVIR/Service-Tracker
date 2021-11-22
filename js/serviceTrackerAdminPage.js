@@ -293,11 +293,15 @@ getData = () => {
             const arrObj = [];
             docData.forEach(data => {
                 const obj = data.data();
-                obj.startDate = getFormattedDate(obj.startDate.toDate());
-                obj.endDate = getFormattedDate(obj.endDate.toDate());
-                obj.id = data.id;
-                if (obj.title != "Today") {
-                    arrObj.push(obj);
+                try {
+                    obj.startDate = getFormattedDate(obj.startDate.toDate());
+                    obj.endDate = getFormattedDate(obj.endDate.toDate());
+                    obj.id = data.id;
+                    if (obj.title != "Today") {
+                        arrObj.push(obj);
+                    }
+                } catch (e) {
+                    console.log(obj);
                 }
 
             });

@@ -6,25 +6,29 @@ var colorTable = {
         concept: "#9fd9de",
         design: "#aad9dd",
         development: "#bee2e5",
-        delivery: "#d5edef"
+        delivery: "#d5edef",
+        today: "red"
     },
     lclu: {
         concept: "#2e8652",
         design: "#398457",
         development: "#4a8c64",
-        delivery: "#5d9974"
+        delivery: "#5d9974",
+        today: "red"
     },
     afs: {
         concept: "#7eb761",
         design: "#86b76e",
         development: "#94bf80",
-        delivery: "#a5c995"
+        delivery: "#a5c995",
+        today: "red"
     },
     wac: {
         concept: "#94a3d4",
         design: "#9eabd6",
         development: "#afbadd",
-        delivery: "#c9d1e8"
+        delivery: "#c9d1e8",
+        today: "red"
     }
 }
 themeObject = {
